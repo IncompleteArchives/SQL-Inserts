@@ -1,0 +1,214 @@
+SELECT "PC0"."PYID" AS "pyID" , "PC0"."AGREEMENTNUMBER" AS "AgreementNumber" , "PC0"."FRONTID" AS "FrontID" , (CASE WHEN "LoanProduct"."VALUE" IS NOT NULL THEN "LoanProduct"."VALUE" ELSE ? END) AS "pyTextValue(1)" , "PC0"."CLIENTNAME" AS "ClientName" , "PC0"."CLIENTPINEQ" AS "ClientPinEQ" , "PC0"."CLIENTTIN" AS "ClientTIN" , CASE WHEN "PC0"."AMOUNTREQUESTEDBYCLIENT" IS NOT NULL THEN CAST ( "PC0"."AMOUNTREQUESTEDBYCLIENT" AS DECIMAL(18, 6) ) END AS "pyDecimalValue(1)" , "PC0"."LOANRATE" AS "LoanRate" , "PC0"."CREDITTERMREQUESTEDBYCLIENT" AS "CreditTermRequestedByClient" , "PC0"."CLIENTACCOUNTNUM" AS "ClientAccountNum" , "Branch"."PYLABEL" AS "pyLabel" , "City"."PYLABEL" AS "pyLabel" , "PC0"."PXCREATEDATETIME" AS "pxCreateDateTime" , to_char(from_tz( CAST("PC0"."PXCREATEDATETIME" AS TIMESTAMP), 'GMT') at time zone (? ),? ) AS "pyTextValue(2)" , to_char(from_tz( CAST("PC0"."AUTHORIZATIONDATETIME" AS TIMESTAMP), 'GMT') at time zone (? ),? ) AS "pyTextValue(3)" , (CASE WHEN "WL"."PXTASKLABEL" IS NOT NULL THEN "WL"."PXTASKLABEL" ELSE (CASE WHEN "WB"."PXTASKLABEL" IS NOT NULL THEN "WB"."PXTASKLABEL" ELSE ? END) END) AS "pyTextValue(4)" , (CASE WHEN CAST ("PC0"."AUTHORIZATIONDATETIME" AS VARCHAR(4000)) IS NOT NULL THEN ? ELSE CAST (? AS VARCHAR(4000)) END) AS "pyTextValue(5)" , "PC0"."SCORINGSTATE" AS "ScoringState" , "DeclineCode"."VALUE" AS "Value" , (CASE WHEN "WL"."PXASSIGNEDUSERNAME" IS NOT NULL THEN "WL"."PXASSIGNEDUSERNAME" ELSE ? END) AS "pyTextValue(6)" , "PC0"."ATTRACTIONUSER" AS "AttractionUser" , "LoanProduct"."BASICPRODUCT" AS "BasicProduct" , "PC0"."CLIENTRATING" AS "ClientRating" , "PC0"."PZINSKEY" AS "pzInsKey" FROM DATA.ABR_OPS_WORK "PC0" LEFT OUTER JOIN DATA.pc_assign_workbasket "WB" ON ( ( "WB"."PXREFOBJECTKEY" = "PC0"."PZINSKEY" ) AND "PC0"."PXOBJCLASS" IN (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ) AND "WB"."PXOBJCLASS" = ? ) LEFT OUTER JOIN DATA.pc_assign_worklist "WL" ON ( ( "WL"."PXREFOBJECTKEY" = "PC0"."PZINSKEY" ) AND "PC0"."PXOBJCLASS" IN (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ) AND "WL"."PXOBJCLASS" = ? ) LEFT OUTER JOIN DATA.MB_LoanProduct "LoanProduct" ON ( ( "LoanProduct"."PRODCODE" = "PC0"."LOANPRODUCT" ) AND "LoanProduct"."PXOBJCLASS" = ? AND "PC0"."PXOBJCLASS" IN (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )) INNER JOIN DATA.ABRFS_BRANCH "Branch" ON ( ( "Branch"."SRCCODE" = "PC0"."EQMNEMONIC" ) AND "Branch"."PXOBJCLASS" = ? AND "PC0"."PXOBJCLASS" IN (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )) INNER JOIN DATA.ABRFS_CITY "City" ON ( ( "Branch"."CITYID" = "City"."PYID" ) AND "Branch"."PXOBJCLASS" = ? AND "City"."PXOBJCLASS" = ? ) LEFT OUTER JOIN DATA.MB_DECLINEREASON "DeclineCode" ON ( ( "DeclineCode"."ID" = "PC0"."DECLINECODE" ) AND "DeclineCode"."PXOBJCLASS" = ? AND "PC0"."PXOBJCLASS" IN (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )) WHERE ( ( ( CASE WHEN ? like '%'||? ||'%' THEN ? ELSE ? END = ? OR "PC0"."PXCREATEOPERATOR" = ? ) AND ( ( "PC0"."PXCREATEDATETIME" >= ? AND "PC0"."PXCREATEDATETIME" <= ? ) OR CASE WHEN ? like '%'||? ||'%' THEN ? ELSE ? END = ? ) AND ( ( "PC0"."AUTHORIZATIONDATETIME" >= ? AND "PC0"."AUTHORIZATIONDATETIME" <= ? ) OR CASE WHEN ? like '%'||? ||'%' THEN ? ELSE ? END = ? ) ) AND "PC0"."PYSTATUSWORK" <> ? ) AND "PC0"."PXOBJCLASS" IN (? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? ) ORDER BY 14 DESC
+
+
+
+<<null>> <<null>> <DD.MM.YYYY> <<null>> <DD.MM.YYYY> <Завершено> <Выдан> <Не выдан> <<null>> <ABR-FW-OpsFW-Work-Loan-MB> <ABR-FW-OpsFW-Work-Loan-MB-Tranche> <ABR-FW-OpsFW-Work-Loan-MB-BG> <ABR-FW-OpsFW-Work-Loan-MB-BG-Change> <ABR-FW-OpsFW-Work-Loan-MB-Business-Express> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express> <ABR-FW-OpsFW-Work-Loan-MB-Pledge> <ABR-FW-OpsFW-Work-Loan-MB-CreditFL> <ABR-FW-OpsFW-Work-Loan-MB-CreditLine> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express> <ABR-FW-OpsFW-Work-Loan-MB-Business> <Assign-WorkBasket> <ABR-FW-OpsFW-Work-Loan-MB> <ABR-FW-OpsFW-Work-Loan-MB-Tranche> <ABR-FW-OpsFW-Work-Loan-MB-BG> <ABR-FW-OpsFW-Work-Loan-MB-BG-Change> <ABR-FW-OpsFW-Work-Loan-MB-Business-Express> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express> <ABR-FW-OpsFW-Work-Loan-MB-Pledge> <ABR-FW-OpsFW-Work-Loan-MB-CreditFL> <ABR-FW-OpsFW-Work-Loan-MB-CreditLine> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express> <ABR-FW-OpsFW-Work-Loan-MB-Business> <Assign-Worklist> <ABR-FW-Data-Dict-LoanProduct> <ABR-FW-OpsFW-Work-Loan-MB> <ABR-FW-OpsFW-Work-Loan-MB-Tranche> <ABR-FW-OpsFW-Work-Loan-MB-BG> <ABR-FW-OpsFW-Work-Loan-MB-BG-Change> <ABR-FW-OpsFW-Work-Loan-MB-Business-Express> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express> <ABR-FW-OpsFW-Work-Loan-MB-Pledge> <ABR-FW-OpsFW-Work-Loan-MB-CreditFL> <ABR-FW-OpsFW-Work-Loan-MB-CreditLine> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express> <ABR-FW-OpsFW-Work-Loan-MB-Business> <ABR-FW-Data-Dict-Branch> <ABR-FW-OpsFW-Work-Loan-MB> <ABR-FW-OpsFW-Work-Loan-MB-Tranche> <ABR-FW-OpsFW-Work-Loan-MB-BG> <ABR-FW-OpsFW-Work-Loan-MB-BG-Change> <ABR-FW-OpsFW-Work-Loan-MB-Business-Express> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express> <ABR-FW-OpsFW-Work-Loan-MB-Pledge> <ABR-FW-OpsFW-Work-Loan-MB-CreditFL> <ABR-FW-OpsFW-Work-Loan-MB-CreditLine> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express> <ABR-FW-OpsFW-Work-Loan-MB-Business> <ABR-FW-Data-Dict-Branch> <ABR-FW-Data-Dict-City> <ABR-FW-Data-Dict-DecineReason> <ABR-FW-OpsFW-Work-Loan-MB> <ABR-FW-OpsFW-Work-Loan-MB-Tranche> <ABR-FW-OpsFW-Work-Loan-MB-BG> <ABR-FW-OpsFW-Work-Loan-MB-BG-Change> <ABR-FW-OpsFW-Work-Loan-MB-Business-Express> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express> <ABR-FW-OpsFW-Work-Loan-MB-Pledge> <ABR-FW-OpsFW-Work-Loan-MB-CreditFL> <ABR-FW-OpsFW-Work-Loan-MB-CreditLine> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express> <ABR-FW-OpsFW-Work-Loan-MB-Business> <true> <false> <true> <false> <false> <U_M0YYC> <2019-12-16 18:41:00.0> <2020-03-17 18:41:59.999> <Date> <Date> <Date> <AutorizationDate> <AutorizationDate> <2019-12-16 18:41:17.88> <2020-03-17 18:41:18.879> <Date> <Date> <Date> <AutorizationDate> <Date> <Resolved-Duplicate" || "Resolved-AutoEmpty> <ABR-FW-OpsFW-Work-Loan-MB> <ABR-FW-OpsFW-Work-Loan-MB-Tranche> <ABR-FW-OpsFW-Work-Loan-MB-BG> <ABR-FW-OpsFW-Work-Loan-MB-BG-Change> <ABR-FW-OpsFW-Work-Loan-MB-Business-Express> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express> <ABR-FW-OpsFW-Work-Loan-MB-Pledge> <ABR-FW-OpsFW-Work-Loan-MB-CreditFL> <ABR-FW-OpsFW-Work-Loan-MB-CreditLine> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard> <ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express> <ABR-FW-OpsFW-Work-Loan-MB-Business>
+
+
+RESULT:
+SELECT "PC0"."PYID" AS "pyID" , "PC0"."AGREEMENTNUMBER" AS "AgreementNumber" , "PC0"."FRONTID" AS "FrontID" , (CASE WHEN "LoanProduct"."VALUE" IS NOT NULL THEN "LoanProduct"."VALUE" ELSE 'null' END) AS "pyTextValue(1)" , "PC0"."CLIENTNAME" AS "ClientName" , "PC0"."CLIENTPINEQ" AS "ClientPinEQ" , "PC0"."CLIENTTIN" AS "ClientTIN" , CASE WHEN "PC0"."AMOUNTREQUESTEDBYCLIENT" IS NOT NULL THEN CAST ( "PC0"."AMOUNTREQUESTEDBYCLIENT" AS DECIMAL(18, 6) ) END AS "pyDecimalValue(1)" , "PC0"."LOANRATE" AS "LoanRate" , "PC0"."CREDITTERMREQUESTEDBYCLIENT" AS "CreditTermRequestedByClient" , "PC0"."CLIENTACCOUNTNUM" AS "ClientAccountNum" , "Branch"."PYLABEL" AS "pyLabel" , "City"."PYLABEL" AS "pyLabel" , "PC0"."PXCREATEDATETIME" AS "pxCreateDateTime" , to_char(from_tz( CAST("PC0"."PXCREATEDATETIME" AS TIMESTAMP), 'GMT') at time zone ('' ),'null' ) AS "pyTextValue(2)" , to_char(from_tz( CAST("PC0"."AUTHORIZATIONDATETIME" AS TIMESTAMP), 'GMT') at time zone ('' ),'DD.MM.YYYY' ) AS "pyTextValue(3)" , (CASE WHEN "WL"."PXTASKLABEL" IS NOT NULL THEN "WL"."PXTASKLABEL" ELSE (CASE WHEN "WB"."PXTASKLABEL" IS NOT NULL THEN "WB"."PXTASKLABEL" ELSE 'null' END) END) AS "pyTextValue(4)" , (CASE WHEN CAST ("PC0"."AUTHORIZATIONDATETIME" AS VARCHAR(4000)) IS NOT NULL THEN '' ELSE CAST ('DD.MM.YYYY' AS VARCHAR(4000)) END) AS "pyTextValue(5)" , "PC0"."SCORINGSTATE" AS "ScoringState" , "DeclineCode"."VALUE" AS "Value" , (CASE WHEN "WL"."PXASSIGNEDUSERNAME" IS NOT NULL THEN "WL"."PXASSIGNEDUSERNAME" ELSE 'Завершено' END) AS "pyTextValue(6)" , "PC0"."ATTRACTIONUSER" AS "AttractionUser" , "LoanProduct"."BASICPRODUCT" AS "BasicProduct" , "PC0"."CLIENTRATING" AS "ClientRating" , "PC0"."PZINSKEY" AS "pzInsKey" FROM DATA.ABR_OPS_WORK "PC0" LEFT OUTER JOIN DATA.pc_assign_workbasket "WB" ON ( ( "WB"."PXREFOBJECTKEY" = "PC0"."PZINSKEY" ) AND "PC0"."PXOBJCLASS" IN ('Выдан' , 'Не выдан' , 'null' , '' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' ) AND "WB"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' ) LEFT OUTER JOIN DATA.pc_assign_worklist "WL" ON ( ( "WL"."PXREFOBJECTKEY" = "PC0"."PZINSKEY" ) AND "PC0"."PXOBJCLASS" IN ('ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Business' , 'Assign-WorkBasket' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' ) AND "WL"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' ) LEFT OUTER JOIN DATA.MB_LoanProduct "LoanProduct" ON ( ( "LoanProduct"."PRODCODE" = "PC0"."LOANPRODUCT" ) AND "LoanProduct"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' AND "PC0"."PXOBJCLASS" IN ('ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Business' , 'Assign-Worklist' , 'ABR-FW-Data-Dict-LoanProduct' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' )) INNER JOIN DATA.ABRFS_BRANCH "Branch" ON ( ( "Branch"."SRCCODE" = "PC0"."EQMNEMONIC" ) AND "Branch"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' AND "PC0"."PXOBJCLASS" IN ('ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Business' , 'ABR-FW-Data-Dict-Branch' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' )) INNER JOIN DATA.ABRFS_CITY "City" ON ( ( "Branch"."CITYID" = "City"."PYID" ) AND "Branch"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' AND "City"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' ) LEFT OUTER JOIN DATA.MB_DECLINEREASON "DeclineCode" ON ( ( "DeclineCode"."ID" = "PC0"."DECLINECODE" ) AND "DeclineCode"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' AND "PC0"."PXOBJCLASS" IN ('ABR-FW-OpsFW-Work-Loan-MB-Business' , 'ABR-FW-Data-Dict-Branch' , 'ABR-FW-Data-Dict-City' , 'ABR-FW-Data-Dict-DecineReason' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' )) WHERE ( ( ( CASE WHEN 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' like '%'||'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' ||'%' THEN 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' ELSE 'ABR-FW-OpsFW-Work-Loan-MB-Business' END = 'true' OR "PC0"."PXCREATEOPERATOR" = 'false' ) AND ( ( "PC0"."PXCREATEDATETIME" >= 'true' AND "PC0"."PXCREATEDATETIME" <= 'false' ) OR CASE WHEN 'false' like '%'||'U_M0YYC' ||'%' THEN '2019-12-16 18:41:00.0' ELSE '2020-03-17 18:41:59.999' END = 'Date' ) AND ( ( "PC0"."AUTHORIZATIONDATETIME" >= 'Date' AND "PC0"."AUTHORIZATIONDATETIME" <= 'Date' ) OR CASE WHEN 'AutorizationDate' like '%'||'AutorizationDate' ||'%' THEN '2019-12-16 18:41:17.88' ELSE '2020-03-17 18:41:18.879' END = 'Date' ) ) AND "PC0"."PYSTATUSWORK" <> 'Date' ) AND "PC0"."PXOBJCLASS" IN ('Date' , 'AutorizationDate' , 'Date' , 'Resolved-Duplicate" || "Resolved-AutoEmpty' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' ) ORDER BY 14 DESC
+
+
+
+SELECT
+        "PC0"."PYID" AS "pyID" ,
+        "PC0"."AGREEMENTNUMBER" AS "AgreementNumber" ,
+        "PC0"."FRONTID" AS "FrontID" ,
+        (CASE
+            WHEN "LoanProduct"."VALUE" IS NOT NULL THEN "LoanProduct"."VALUE"
+            ELSE 'null'
+        END) AS "pyTextValue(1)" ,
+        "PC0"."CLIENTNAME" AS "ClientName" ,
+        "PC0"."CLIENTPINEQ" AS "ClientPinEQ" ,
+        "PC0"."CLIENTTIN" AS "ClientTIN" ,
+        CASE
+            WHEN "PC0"."AMOUNTREQUESTEDBYCLIENT" IS NOT NULL THEN CAST ( "PC0"."AMOUNTREQUESTEDBYCLIENT" AS DECIMAL(18,
+            6) )
+        END AS "pyDecimalValue(1)" ,
+        "PC0"."LOANRATE" AS "LoanRate" ,
+        "PC0"."CREDITTERMREQUESTEDBYCLIENT" AS "CreditTermRequestedByClient" ,
+        "PC0"."CLIENTACCOUNTNUM" AS "ClientAccountNum" ,
+        "Branch"."PYLABEL" AS "pyLabel" ,
+        "City"."PYLABEL" AS "pyLabel" ,
+        "PC0"."PXCREATEDATETIME" AS "pxCreateDateTime" ,
+        to_char(from_tz( CAST("PC0"."PXCREATEDATETIME" AS TIMESTAMP),
+        'GMT') at time zone ('' ),
+        'null' ) AS "pyTextValue(2)" ,
+        to_char(from_tz( CAST("PC0"."AUTHORIZATIONDATETIME" AS TIMESTAMP),
+        'GMT') at time zone ('' ),
+        'DD.MM.YYYY' ) AS "pyTextValue(3)" ,
+        (CASE
+            WHEN "WL"."PXTASKLABEL" IS NOT NULL THEN "WL"."PXTASKLABEL"
+            ELSE (CASE
+                WHEN "WB"."PXTASKLABEL" IS NOT NULL THEN "WB"."PXTASKLABEL"
+                ELSE 'null'
+            END)
+        END) AS "pyTextValue(4)" ,
+        (CASE
+            WHEN CAST ("PC0"."AUTHORIZATIONDATETIME" AS VARCHAR(4000)) IS NOT NULL THEN ''
+            ELSE CAST ('DD.MM.YYYY' AS VARCHAR(4000))
+        END) AS "pyTextValue(5)" ,
+        "PC0"."SCORINGSTATE" AS "ScoringState" ,
+        "DeclineCode"."VALUE" AS "Value" ,
+        (CASE
+            WHEN "WL"."PXASSIGNEDUSERNAME" IS NOT NULL THEN "WL"."PXASSIGNEDUSERNAME"
+            ELSE 'Завершено'
+        END) AS "pyTextValue(6)" ,
+        "PC0"."ATTRACTIONUSER" AS "AttractionUser" ,
+        "LoanProduct"."BASICPRODUCT" AS "BasicProduct" ,
+        "PC0"."CLIENTRATING" AS "ClientRating" ,
+        "PC0"."PZINSKEY" AS "pzInsKey"
+    FROM
+        DATA.ABR_OPS_WORK "PC0"
+    LEFT OUTER JOIN
+        DATA.pc_assign_workbasket "WB"
+            ON (
+                (
+                    "WB"."PXREFOBJECTKEY" = "PC0"."PZINSKEY"
+                )
+                AND "PC0"."PXOBJCLASS" IN (
+                    'Выдан' ,
+                'Не выдан' ,
+                'null' ,
+                '' ,
+                'ABR-FW-OpsFW-Work-Loan-MB' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-Tranche' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-BG' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-Pledge' ,
+                'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' )
+                AND "WB"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' )
+            LEFT OUTER JOIN
+                DATA.pc_assign_worklist "WL"
+                    ON (
+                        (
+                            "WL"."PXREFOBJECTKEY" = "PC0"."PZINSKEY"
+                        )
+                        AND "PC0"."PXOBJCLASS" IN (
+                            'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Business' ,
+                        'Assign-WorkBasket' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Tranche' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-BG' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-Pledge' ,
+                        'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' )
+                        AND "WL"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' )
+                    LEFT OUTER JOIN
+                        DATA.MB_LoanProduct "LoanProduct"
+                            ON (
+                                (
+                                    "LoanProduct"."PRODCODE" = "PC0"."LOANPRODUCT"
+                                )
+                                AND "LoanProduct"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard'
+                                AND "PC0"."PXOBJCLASS" IN (
+                                    'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-Business' ,
+                                'Assign-Worklist' ,
+                                'ABR-FW-Data-Dict-LoanProduct' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-Tranche' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-BG' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-Pledge' ,
+                                'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' ))
+                            INNER JOIN
+                                DATA.ABRFS_BRANCH "Branch"
+                                    ON (
+                                        (
+                                            "Branch"."SRCCODE" = "PC0"."EQMNEMONIC"
+                                        )
+                                        AND "Branch"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine'
+                                        AND "PC0"."PXOBJCLASS" IN (
+                                            'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Business' ,
+                                        'ABR-FW-Data-Dict-Branch' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Tranche' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-BG' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-Pledge' ,
+                                        'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' ))
+                                    INNER JOIN
+                                        DATA.ABRFS_CITY "City"
+                                            ON (
+                                                (
+                                                    "Branch"."CITYID" = "City"."PYID"
+                                                )
+                                                AND "Branch"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine'
+                                                AND "City"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard'
+                                            )
+                                    LEFT OUTER JOIN
+                                        DATA.MB_DECLINEREASON "DeclineCode"
+                                            ON (
+                                                (
+                                                    "DeclineCode"."ID" = "PC0"."DECLINECODE"
+                                                )
+                                                AND "DeclineCode"."PXOBJCLASS" = 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express'
+                                                AND "PC0"."PXOBJCLASS" IN (
+                                                    'ABR-FW-OpsFW-Work-Loan-MB-Business' ,
+                                                'ABR-FW-Data-Dict-Branch' ,
+                                                'ABR-FW-Data-Dict-City' ,
+                                                'ABR-FW-Data-Dict-DecineReason' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-Tranche' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-BG' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-Pledge' ,
+                                                'ABR-FW-OpsFW-Work-Loan-MB-CreditFL' ))
+                                            WHERE
+                                                (
+                                                    (
+                                                        (
+                                                            CASE
+                                                                WHEN 'ABR-FW-OpsFW-Work-Loan-MB-CreditLine' like '%'||'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard' ||'%' THEN 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-Express'
+                                                                ELSE 'ABR-FW-OpsFW-Work-Loan-MB-Business'
+                                                            END = 'true'
+                                                            OR "PC0"."PXCREATEOPERATOR" = 'false'
+                                                        )
+                                                        AND (
+                                                            (
+                                                                "PC0"."PXCREATEDATETIME" >= 'true'
+                                                                AND "PC0"."PXCREATEDATETIME" <= 'false'
+                                                            )
+                                                            OR CASE
+                                                                WHEN 'false' like '%'||'U_M0YYC' ||'%' THEN '2019-12-16 18:41:00.0'
+                                                                ELSE '2020-03-17 18:41:59.999'
+                                                            END = 'Date'
+                                                        )
+                                                        AND (
+                                                            (
+                                                                "PC0"."AUTHORIZATIONDATETIME" >= 'Date'
+                                                                AND "PC0"."AUTHORIZATIONDATETIME" <= 'Date'
+                                                            )
+                                                            OR CASE
+                                                                WHEN 'AutorizationDate' like '%'||'AutorizationDate' ||'%' THEN '2019-12-16 18:41:17.88'
+                                                                ELSE '2020-03-17 18:41:18.879'
+                                                            END = 'Date'
+                                                        )
+                                                    )
+                                                    AND "PC0"."PYSTATUSWORK" <> 'Date'
+                                                )
+                                                AND "PC0"."PXOBJCLASS" IN (
+                                                    'Date' , 'AutorizationDate' , 'Date' , 'Resolved-Duplicate" || "Resolved-AutoEmpty' , 'ABR-FW-OpsFW-Work-Loan-MB' , 'ABR-FW-OpsFW-Work-Loan-MB-Tranche' , 'ABR-FW-OpsFW-Work-Loan-MB-BG' , 'ABR-FW-OpsFW-Work-Loan-MB-BG-Change' , 'ABR-FW-OpsFW-Work-Loan-MB-Business-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft' , 'ABR-FW-OpsFW-Work-Loan-MB-Overdraft-CreditCard-Express' , 'ABR-FW-OpsFW-Work-Loan-MB-Pledge' , 'ABR-FW-OpsFW-Work-Loan-MB-CreditFL'
+                                                )
+                                            ORDER BY
+                                                14 DESC
